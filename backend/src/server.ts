@@ -3,18 +3,10 @@ import dotenv from 'dotenv';
 import net from 'net';
 import { RedisMemoryServer } from 'redis-memory-server';
 
-import { execSync } from 'child_process';
-
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 dotenv.config();
 
 async function startServer() {
-  try {
-    console.log('Ensuring database schema tables exist via Prisma...');
-    execSync('npx prisma db push --skip-generate', { stdio: 'inherit' });
-  } catch (dbErr: any) {
-    console.warn('Prisma DB schema sync warning:', dbErr.message);
-  }
 
   const redisPort = 6379;
   

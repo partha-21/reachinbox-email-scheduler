@@ -7,7 +7,10 @@ export const LoginPage: React.FC = () => {
 
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('error') === 'auth_failed') {
+    const errorParam = params.get('error');
+    if (errorParam === 'google_not_configured') {
+      setErrorMsg('Google login is not configured on this server yet.');
+    } else if (errorParam === 'auth_failed') {
       setErrorMsg('Google OAuth authentication failed. Please verify your account or credentials.');
     }
   }, []);

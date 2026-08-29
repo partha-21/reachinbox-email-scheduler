@@ -75,54 +75,19 @@ export class AuthController {
   }
 
   static initiateGoogleAuth(req: Request, res: Response, next: NextFunction) {
+    if (
+      !googleClientId ||
+      googleClientId.includes('your-google-client-id') ||
+      !googleClientSecret ||
+      googleClientSecret.includes('your-google-client-secret')
+    ) {
+      return res.redirect(`${FRONTEND_URL}/login?error=google_not_configured`);
+    }
+
     return passport.authenticate('google', {
       scope: ['openid', 'email', 'profile'],
       prompt: 'select_account',
     })(req, res, next);
-  }
-
-  static async devLogin(req: Request, res: Response) {
-    if (process.env.NODE_ENV === 'production' || process.env.ALLOW_DEV_LOGIN !== 'true') {
-      return res.status(403).json({ error: 'Dev login is disabled.' });
-    }
-
-    try {
-      const { email, name } = req.body;
-      if (!email) {
-        return res.status(400).json({ error: 'Email is required' });
-      }
-
-      const userName = name || email.split('@')[0] || 'User';
-      const avatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=00a846&color=fff`;
-
-      let user = await prisma.user.findUnique({ where: { email } });
-
-      if (!user) {
-        user = await prisma.user.create({
-          data: {
-            email,
-            name: userName,
-            avatar,
-          },
-        });
-      }
-
-      const token = AuthController.generateToken(user);
-
-      res.cookie('token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
-
-      return res.json({
-        message: 'Login successful',
-        user,
-        token,
-      });
-    } catch (error: any) {
-      return res.status(500).json({ error: error.message });
-    }
   }
 
   static googleCallback(req: Request, res: Response, next: NextFunction) {
