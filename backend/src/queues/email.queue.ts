@@ -22,4 +22,4 @@ export const emailQueue = new Queue(EMAIL_QUEUE_NAME, {
   },
 });
 
-console.log(`✅ Initialized BullMQ queue: ${EMAIL_QUEUE_NAME}`);
+console.log(`Initialized BullMQ queue: ${EMAIL_QUEUE_NAME}`);

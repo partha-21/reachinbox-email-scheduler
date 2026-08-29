@@ -25,19 +25,19 @@ export const emailWorker = new Worker<EmailJobData>(
   EMAIL_QUEUE_NAME,
   async (job: Job<EmailJobData>) => {
     const { emailId, userId, sender, recipient, subject, body, hourlyLimit, idempotencyKey } = job.data;
-    console.log(`⚙️ Worker processing job ${job.id} for email ${emailId} -> ${recipient}`);
+    console.log(`Worker processing job ${job.id} for email ${emailId} -> ${recipient}`);
 
     const emailRecord = await prisma.email.findUnique({
       where: { id: emailId },
     });
 
     if (!emailRecord) {
-      console.warn(`⚠️ Email record ${emailId} not found in DB. Skipping job.`);
+      console.warn(`Email record ${emailId} not found in DB. Skipping job.`);
       return { status: 'SKIPPED', reason: 'NOT_FOUND' };
     }
 
     if (emailRecord.status === 'SENT') {
-      console.log(`🛡️ Idempotency triggered: Email ${emailId} already SENT. Skipping duplicate execution.`);
+      console.log(`Idempotency triggered: Email ${emailId} already SENT. Skipping duplicate execution.`);
       return { status: 'SKIPPED', reason: 'ALREADY_SENT' };
     }
 
@@ -45,7 +45,7 @@ export const emailWorker = new Worker<EmailJobData>(
 
     if (!rateCheck.allowed) {
       const nextTime = rateCheck.nextAvailableTime || new Date(Date.now() + rateCheck.resetInMs);
-      console.warn(`⏳ Hourly rate limit (${hourlyLimit}/hr) reached for ${sender}. Rescheduling email ${emailId} to ${nextTime.toISOString()}`);
+      console.warn(`Hourly rate limit (${hourlyLimit}/hr) reached for ${sender}. Rescheduling email ${emailId} to ${nextTime.toISOString()}`);
 
       const updatedRecord = await prisma.email.update({
         where: { id: emailId },
@@ -110,7 +110,7 @@ export const emailWorker = new Worker<EmailJobData>(
         await new Promise((resolve) => setTimeout(resolve, minDelayMs));
       }
 
-      console.log(`✅ Job ${job.id} completed successfully for email ${emailId}`);
+      console.log(`Job ${job.id} completed successfully for email ${emailId}`);
       return {
         status: 'SENT',
         messageId: sendResult.messageId,
@@ -118,7 +118,7 @@ export const emailWorker = new Worker<EmailJobData>(
         sentAt: sentAt.toISOString(),
       };
     } catch (error: any) {
-      console.error(`❌ Job ${job.id} failed sending to ${recipient}:`, error.message);
+      console.error(`Job ${job.id} failed sending to ${recipient}:`, error.message);
 
       const failedRecord = await prisma.email.update({
         where: { id: emailId },
@@ -140,11 +140,11 @@ export const emailWorker = new Worker<EmailJobData>(
 );
 
 emailWorker.on('completed', (job) => {
-  console.log(`🎉 Worker finished job ${job.id}`);
+  console.log(`Worker finished job ${job.id}`);
 });
 
 emailWorker.on('failed', (job, err) => {
-  console.error(`💥 Worker job ${job?.id} failed with error: ${err.message}`);
+  console.error(`Worker job ${job?.id} failed with error: ${err.message}`);
 });
 
-console.log(`✅ Started BullMQ emailWorker with concurrency = ${concurrency}`);
+console.log(`Started BullMQ emailWorker with concurrency = ${concurrency}`);

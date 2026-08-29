@@ -31,11 +31,11 @@ export async function setupElasticsearchIndex() {
           },
         },
       });
-      console.log(`✅ Created Elasticsearch index: ${EMAILS_INDEX}`);
+      console.log(`Created Elasticsearch index: ${EMAILS_INDEX}`);
     } else {
-      console.log(`✅ Elasticsearch index '${EMAILS_INDEX}' verified`);
+      console.log(`Elasticsearch index '${EMAILS_INDEX}' verified`);
     }
   } catch (error: any) {
-    console.warn(`⚠️ Elasticsearch initialization note: ${error.message}. Will use DB search fallback if needed.`);
+    console.warn(`Elasticsearch initialization note: ${error.message}. Will use DB search fallback if needed.`);
   }
 }

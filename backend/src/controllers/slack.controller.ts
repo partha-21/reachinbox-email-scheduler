@@ -26,7 +26,7 @@ export class SlackController {
       return res.redirect(`${FRONTEND_URL}?slack=connected`);
     }
 
-    const scopes = ['chat:write', 'channels:read', 'incoming-webhook'];
+    const scopes = ['chat:write', 'chat:write.public', 'channels:read', 'incoming-webhook'];
     const slackAuthUrl = `https://slack.com/oauth/v2/authorize?client_id=${SLACK_CLIENT_ID}&scope=${scopes.join(
       ','
     )}&redirect_uri=${encodeURIComponent(SLACK_REDIRECT_URI)}&state=${req.user!.id}`;

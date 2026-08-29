@@ -29,13 +29,13 @@ async function startServer() {
 
   if (!isRedisRunning) {
     try {
-      console.log('📦 Starting auto-configured Redis Memory Server on port 6379...');
+      console.log('Starting auto-configured Redis Memory Server on port 6379...');
       const rms = new RedisMemoryServer({ instance: { port: redisPort } });
       await rms.getHost();
       await rms.getPort();
-      console.log(`✅ In-Memory Redis server successfully online at 127.0.0.1:${redisPort}`);
+      console.log(`In-Memory Redis server successfully online at 127.0.0.1:${redisPort}`);
     } catch (err: any) {
-      console.warn('⚠️ RedisMemoryServer start warning:', err.message);
+      console.warn('RedisMemoryServer start warning:', err.message);
     }
   }
 
@@ -46,8 +46,8 @@ async function startServer() {
 
   const server = app.listen(PORT, () => {
     console.log(`
- 🚀 ReachInbox Backend API running on http://localhost:${PORT}
- 📊 BullMQ Dashboard available at http://localhost:${PORT}/admin/queues
+ReachInbox Backend API running on http://localhost:${PORT}
+BullMQ Dashboard available at http://localhost:${PORT}/admin/queues
     `);
   });
 

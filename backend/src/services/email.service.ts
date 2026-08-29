@@ -132,7 +132,7 @@ export class EmailService {
           });
         }
       } catch (err: any) {
-        console.warn(`ℹ️ BullMQ job queuing note for ${emailRecord.id}: ${err.message}`);
+        console.warn(`BullMQ job queuing note for ${emailRecord.id}: ${err.message}`);
       }
 
       createdEmails.push(emailRecord);

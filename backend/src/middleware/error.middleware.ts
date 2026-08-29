@@ -6,7 +6,7 @@ export function errorHandler(
   res: Response,
   next: NextFunction
 ) {
-  console.error('❌ Central Error Handler:', err.stack || err.message || err);
+  console.error('Central Error Handler:', err.stack || err.message || err);
 
   const statusCode = err.statusCode || 500;
   const message = err.message || 'Internal Server Error';

@@ -33,9 +33,9 @@ export class ElasticsearchService {
           createdAt: emailDoc.createdAt.toISOString(),
         },
       });
-      console.log(`🔎 Indexed email ${emailDoc.id} in Elasticsearch`);
+      console.log(`Indexed email ${emailDoc.id} in Elasticsearch`);
     } catch (error: any) {
-      console.warn(`⚠️ Elasticsearch indexing skipped/warned for ${emailDoc.id}: ${error.message}`);
+      console.warn(`Elasticsearch indexing skipped for ${emailDoc.id}: ${error.message}`);
     }
   }
 
@@ -66,7 +66,7 @@ export class ElasticsearchService {
       const hits = response.hits.hits;
       return hits.map((hit: any) => hit._source);
     } catch (error: any) {
-      console.warn(`⚠️ Elasticsearch search failed (${error.message}). Falling back to database query.`);
+      console.warn(`Elasticsearch search failed (${error.message}). Falling back to database query.`);
 
       const dbResults = await prisma.email.findMany({
         where: {

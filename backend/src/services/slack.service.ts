@@ -14,7 +14,7 @@ export class SlackService {
       });
 
       if (!connection || !connection.accessToken) {
-        console.log(`ℹ️ Slack not connected for user ${userId}. Skipping rate limit notification.`);
+        console.log(`Slack not connected for user ${userId}. Skipping rate limit notification.`);
         return false;
       }
 
@@ -25,13 +25,13 @@ export class SlackService {
         : 'the next available hourly window';
 
       const message = {
-        text: `⚠️ *Hourly Email Limit Reached*`,
+        text: `Hourly Email Limit Reached`,
         blocks: [
           {
             type: 'header',
             text: {
               type: 'plain_text',
-              text: '⚠️ Sender Hourly Limit Exceeded',
+              text: 'Sender Hourly Limit Exceeded',
               emoji: true,
             },
           },
@@ -72,7 +72,7 @@ export class SlackService {
           channel: connection.slackUserId || connection.botUserId || '#general',
           ...message,
         });
-        console.log(`✅ Sent Slack rate-limit alert to user ${userId}`);
+        console.log(`Sent Slack rate-limit alert to user ${userId}`);
         return true;
       } catch (postErr: any) {
         console.warn(`Slack channel post failed, attempting DM fallback: ${postErr.message}`);
@@ -83,15 +83,16 @@ export class SlackService {
             channel: targetChannel,
             ...message,
           });
-          console.log(`✅ Sent Slack rate-limit alert to channel ${targetChannel}`);
+          console.log(`Sent Slack rate-limit alert to channel ${targetChannel}`);
           return true;
         }
       }
 
       return false;
     } catch (error: any) {
-      console.error(`❌ Slack notification error for user ${userId}:`, error.message);
-      return false; // Graceful skip - do not fail job
+      console.error(`Slack notification error for user ${userId}:`, error.message);
+      return false;
     }
   }
 }
+
