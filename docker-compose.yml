@@ -1,6 +1,37 @@
 version: '3.8'
 
 services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: reachinbox_backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=file:./dev.db
+      - REDIS_URL=redis://redis:6379
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - PORT=5000
+      - FRONTEND_URL=http://localhost:5173
+      - JWT_SECRET=reachinbox_super_secret_jwt_key_2026
+      - SESSION_SECRET=reachinbox_session_secret_key_2026
+    depends_on:
+      - redis
+      - elasticsearch
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: reachinbox_frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
   postgres:
     image: postgres:15-alpine
     container_name: reachinbox_postgres

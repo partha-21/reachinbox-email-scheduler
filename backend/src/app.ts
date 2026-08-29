@@ -26,7 +26,12 @@ app.use(
 
 app.use(
   cors({
-    origin: [FRONTEND_URL, 'http://localhost:5173', 'http://localhost:3000'],
+    origin: (origin, callback) => {
+      if (!origin || origin === FRONTEND_URL || origin.includes('localhost') || origin.endsWith('.onrender.com') || origin.endsWith('.vercel.app')) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
     credentials: true,
   })
 );
@@ -35,13 +40,16 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
+const isProd = process.env.NODE_ENV === 'production';
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'reachinbox_session_secret_key_2026',
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === 'production',
+      secure: isProd,
+      sameSite: isProd ? 'none' : 'lax',
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
     },
