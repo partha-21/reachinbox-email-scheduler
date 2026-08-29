@@ -4,7 +4,7 @@ Production-grade full-stack email outreach scheduler built with React, TypeScrip
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
                           ┌────────────────────────┐
@@ -30,21 +30,21 @@ Production-grade full-stack email outreach scheduler built with React, TypeScrip
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, Lucide Icons, React Router v6, Axios
 - **Backend**: Node.js, Express.js, TypeScript, Passport.js
 - **Database & ORM**: PostgreSQL / SQLite, Prisma ORM
 - **Queue & Rate Limiting**: BullMQ 5, Redis 7 (ioredis & redis-memory-server fallback)
 - **Email Delivery**: Nodemailer (Real-Time SMTP for live delivery + Ethereal SMTP sandbox fallback)
-- **Search Engine**: Elasticsearch 8.8 (`@elastic/elasticsearch`)
-- **Integrations**: Google OAuth 2.0, Slack Web API (`@slack/web-api`)
-- **Live Dashboard**: BullBoard (`@bull-board/express`)
+- **Search Engine**: Elasticsearch 8.8 
+- **Integrations**: Google OAuth 2.0, Slack Web API 
+- **Live Dashboard**: BullBoard 
 - **Deployment**: Render Free Tier (Native Node.js & Static Web Services)
 
 ---
 
-## 📁 Monorepo Folder Structure
+## Monorepo Folder Structure
 
 ```
 reachinbox-email-scheduler/
@@ -115,7 +115,7 @@ reachinbox-email-scheduler/
 
 ---
 
-## ⚡ Quick Start Guide
+## Quick Start Guide
 
 ### Prerequisites
 - Node.js (v18+ or v20+)
@@ -159,7 +159,7 @@ The React frontend application will launch on `http://localhost:5173`.
 
 ---
 
-## 🚀 Deploying to Render Free Tier
+## Deploying to Render Free Tier
 
 Render's free tier rejects web services deployed using Docker containers. This repository is configured to deploy seamlessly on Render's **Free Tier Native Runtimes**:
 
@@ -171,7 +171,7 @@ Render's free tier rejects web services deployed using Docker containers. This r
 
 ---
 
-## 🔑 OAuth Setup Details
+## OAuth Setup Details
 
 ### Google OAuth 2.0
 1. Create a project in the Google Cloud Console.
@@ -188,7 +188,7 @@ Render's free tier rejects web services deployed using Docker containers. This r
 
 ---
 
-## ⚙️ Core Technical Capabilities
+## Core Technical Capabilities
 
 ### 1. Redis Sliding Window Rate Limiting
 - Evaluated per sender (`rate_limit:sender:{email}`).
@@ -208,7 +208,7 @@ Render's free tier rejects web services deployed using Docker containers. This r
 
 ---
 
-## 🧪 Automated Testing Scripts
+## Automated Testing Scripts
 
 Run tests from the `backend/` directory:
 
@@ -229,7 +229,7 @@ npm run test:restart
 
 ---
 
-## 📋 Requirement Mapping Matrix
+## Requirement Mapping Matrix
 
 | Assignment Requirement | Implementation | Status |
 | :--- | :--- | :---: |
