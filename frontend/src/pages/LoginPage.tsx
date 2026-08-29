@@ -24,7 +24,8 @@ export const LoginPage: React.FC = () => {
     setLoading(true);
     setErrorMsg(null);
     try {
-      const res = await fetch('http://localhost:5000/api/auth/dev-login', {
+      const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const res = await fetch(`${apiBaseUrl}/auth/dev-login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
