@@ -8,8 +8,6 @@ router.get('/google', AuthController.initiateGoogleAuth);
 
 router.get('/google/callback', AuthController.googleCallback);
 
-router.post('/dev-login', AuthController.devLogin);
-
 router.get('/me', authMiddleware, AuthController.getMe);
 
 router.post('/logout', authMiddleware, AuthController.logout);
